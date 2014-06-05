@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="bootstrap.css"/>
+    <link rel="stylesheet" href="bootstrap-theme.css"/>
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+    <script src="angular.min.js"></script>
+
+    <title>Central Archive</title>
+    <script>
+        var app = angular.module("app",[]);
+        app.controller("Ctrl", function($scope, $http){
+
+            $http({
+                url: "http://localhost:9200/20*/_count",
+                method: "GET"
+            }).success(function(data, status, headers, config) {
+                $scope.archives = data;
+            }).error(function(data, status, headers, config) {
+                $scope.archives = { count : 0};
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <ul class="nav nav-pills pull-right">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <h3 class="text-muted">WW Project</h3>
+        </div>
+
+        <div class="jumbotron" ng-controller="Ctrl">
+            <h1>Central Archive</h1>
+            <p class="lead">如果有一個免費的服務平台，提供即時、穩定、高效率的Object存取服務，我們還需要DB嗎?</p>
+            <p>{{archives.count | number:0}} archives stored</p>
+            <p><a class="btn btn-lg btn-success" role="button">Try it</a></p>
+        </div>
+
+        <div class="row marketing">
+            <div class="col-lg-6">
+                <h4>錄音查詢</h4>
+                <p>以手機Browser仿Google方式查詢</p>
+
+                <h4>提供第三方監錄索引</h4>
+                <p>當客戶端的錄音系統非LOG8000時</p>
+            </div>
+
+            <div class="col-lg-6">
+                <h4>第三方錄音查播</h4>
+                <p>當需要與客戶的業務系統軟體做整合時</p>
+
+                <h4>Free Auxiliary Data Scheme</h4>
+                <p>當客戶要求在錄音索引上記載額外的資訊時</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>&copy; Grandsys 2014</p>
+        </div>
+
+    </div> <!-- /container -->
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+</body>
+</html>

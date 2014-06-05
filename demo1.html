@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="demo1App">
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="bootstrap.css"/>
+    <link rel="stylesheet" href="bootstrap-theme.css">
+    <link rel="stylesheet" href="ng-grid.min.css">
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="angular.min.js"></script>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="ng-grid-2.0.11.min.js"></script>
+    <title>Demo 1</title>
+    <script>
+        var app = angular.module("demo1App",['ngGrid']);
+        app.controller("Ctrl", function($scope, $http, $timeout){
+            $scope.searchParams = { q : "", _source: "SiteID,StartTime,EndTime" };
+            $scope.results = [];
+
+            var timeout;
+            $scope.$watch(function(){
+                return $scope.searchParams.q + $scope.searchParams._source;
+            }, function(newVal) {
+                if(newVal){
+                    if(timeout) $timeout.cancel(timeout);
+                    timeout = $timeout(function(){
+                        $http({
+                            url: "http://localhost:9200/_all/_search",
+                            method: "GET",
+                            params: $scope.searchParams
+
+                        }).success(function(data, status, headers, config) {
+                            $scope.results = data.hits.hits.map(function(item){
+
+                                var obj = item._source;
+                                obj['PID'] = item._id;
+
+                                return obj;
+                            });
+                        }).error(function(data, status, headers, config) {
+                            $scope.results = {};
+                        });
+                    }, 1000);
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header" ng-controller="Ctrl">
+            <h1>Demo 1 錄音查詢
+                <small>以手機Browser仿Google方式查詢</small>
+            </h1>
+            <ul>
+                <li>輸入 “0933123123”      	呼入或呼出號碼搜尋</li>
+                <li>輸入 “張志明 0933123123”  	專員名稱過濾</li>
+                <li>輸入 “李春嬌 保單核准 {時間範圍過濾}” 多重過濾</li>
+            </ul>
+            <form role="form">
+                <div class="form-group">
+                    <p>
+                        <input class="form-control input-lg" type="text"
+                               ng-model="searchParams._source"
+                               placeholder="fields">
+                    </p>
+
+                    <input class="form-control input-lg" type="text"
+                           ng-model="searchParams.q"
+                           placeholder="Search">
+                </div>
+            </form>
+            <table class="table">
+                <thead>
+                <tr>
+                   <td ng-repeat="(header, value) in results[0]">{{header}}</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in results">
+                    <td ng-repeat="c in row">{{c}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
