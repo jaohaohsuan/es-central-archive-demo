@@ -2,33 +2,60 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <link rel="stylesheet" href="bootstrap.css"/>
     <link rel="stylesheet" href="bootstrap-theme.css">
+    <link rel="stylesheet" href="ng-grid.min.css">
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="angular.min.js"></script>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="ng-grid-2.0.11.min.js"></script>
     <title>Old style Demo1</title>
     <script>
 
-
-        var app = angular.module("demo1App");
+        var app = angular.module("demo1App", []);
         app.controller("Ctrl",function($http, $scope){
-
-            $scope.StartTime = "2011/07/27 18:20:51";
-            $scope.Direct = "inbound";
+            $scope.results = [];
+            $scope.criteria = {
+                StartTime : "2011/06/05 05:13:45",
+                Direct : "inbound",
+                ExtNo : "13268",
+                UserID : "3538"
+            };
 
             $scope.querySubmit = function(){
 
-                var model = { query: {
-                    filtered: {
-                        filter: {
-                            term : $scope
-                        }} }};
+                var qStr = "";
+                angular.forEach($scope.criteria, function(value,header){
+                    if(!value || value === "")
+                    {
+
+                    }
+                    else{
+
+                        if(header === "StartTime")
+                        {
+                            value = "\"" + value + "\"";
+                        }
+
+                        var pair = "+" + header + ":" + value + " ";
+                        qStr+= pair;
+                    }
+                });
 
                 $http({
-                    url: "http://192.168.11.2:9200/_all/_search",
-                    method: "GET",
-                    params: model
-
+                    url: 'http://172.16.1.201:9200/20*/_search',
+                    method: 'GET',
+                    params: {
+                        q: qStr.trim(),
+                        _source : "StartTime,Direct,ExtNo,UserID"
+                    }
                 }).success(function(data, status, headers, config) {
+
                     $scope.results = data.hits.hits.map(function(item){
 
                         var obj = item._source;
@@ -39,7 +66,6 @@
                 }).error(function(data, status, headers, config) {
                     $scope.results = {};
                 });
-
             }
 
         });
@@ -47,29 +73,54 @@
     </script>
 </head>
 <body>
-<div class="container">
+<div class="container" ng-app="demo1App">
     <div class="page-header" ng-controller="Ctrl">
         <h1>Demo 1 錄音查詢(Old)
             <small></small>
         </h1>
+        <ul>
+            <li>以錄音開始時間、電話方向、分機號碼、專員Id等做查詢</li>
+        </ul>
         <form role="form">
             <div class="form-group">
                 <label for="inputStartTime">開始時間</label>
-                <input type="text" class="form-control" id="inputStartTime" placeholder="2011/01/01 12:30:00">
+                <input type="text" class="form-control" id="inputStartTime"
+                       placeholder="2011/06/05 05:13:45"
+                       ng-model="criteria.StartTime">
             </div>
             <div class="form-group">
                 <label for="inputDirection">電話方向</label>
-                <input type="text" class="form-control" id="inputDirection" placeholder="inbound/outbound">
+                <input type="text" class="form-control" id="inputDirection"
+                       placeholder="inbound/outbound"
+                       ng-model="criteria.Direct">
             </div>
             <div class="form-group">
-                <label for="exampleInputFile">File input</label>
-                <input type="file" id="exampleInputFile">
-
-                <p class="help-block">Example block-level help text here.</p>
+                <label for="inputExtNo">分機號碼</label>
+                <input type="text" class="form-control" id="inputExtNo"
+                       placeholder="13268"
+                       ng-model="criteria.ExtNo">
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <div class="form-group">
+                <label for="inputUserID">專員Id</label>
+                <input type="text" class="form-control" id="inputUserID"
+                       placeholder="3538"
+                       ng-model="criteria.UserID">
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="querySubmit()">Query</button>
         </form>
 
+        <table class="table">
+            <thead>
+            <tr>
+                <td ng-repeat="(header, value) in results[0]">{{header}}</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in results">
+                <td ng-repeat="c in row">{{c}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 
 

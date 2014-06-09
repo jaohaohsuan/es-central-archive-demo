@@ -17,7 +17,7 @@
         app.controller("Ctrl", function($scope, $http){
 
             $http({
-                url: "http://192.168.11.2:9200/20*/_count",
+                url: "http://172.16.1.201:9200/20*/_count",
                 method: "GET"
             }).success(function(data, status, headers, config) {
                 $scope.archives = data;

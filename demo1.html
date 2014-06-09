@@ -16,7 +16,7 @@
     <script src="ng-grid-2.0.11.min.js"></script>
     <title>Demo 1</title>
     <script>
-        var app = angular.module("demo1App",['ngGrid']);
+        var app = angular.module("demo1App",[]);
         app.controller("Ctrl", function($scope, $http, $timeout){
             $scope.searchParams = { q : "", _source: "SiteID,StartTime,EndTime" };
             $scope.results = [];
@@ -29,7 +29,7 @@
                     if(timeout) $timeout.cancel(timeout);
                     timeout = $timeout(function(){
                         $http({
-                            url: "http://192.168.11.2:9200/_all/_search",
+                            url: "http://172.16.1.201:9200/_all/_search",
                             method: "GET",
                             params: $scope.searchParams
 
