@@ -17,7 +17,7 @@
         app.controller("Ctrl", function($scope, $http){
 
             $http({
-                url: "http://localhost:9200/20*/_count",
+                url: "http://192.168.11.2:9200/20*/_count",
                 method: "GET"
             }).success(function(data, status, headers, config) {
                 $scope.archives = data;
@@ -43,13 +43,13 @@
             <h1>Central Archive</h1>
             <p class="lead">如果有一個免費的服務平台，提供即時、穩定、高效率的Object存取服務，我們還需要DB嗎?</p>
             <p>{{archives.count | number:0}} archives stored</p>
-            <p><a class="btn btn-lg btn-success" role="button">Try it</a></p>
+            <p><a class="btn btn-lg btn-success" role="button" href="demo1.html">Try it</a></p>
         </div>
 
         <div class="row marketing">
             <div class="col-lg-6">
                 <h4>錄音查詢</h4>
-                <p>以手機Browser仿Google方式查詢</p>
+                <p><a href="demo1.html">以手機Browser仿Google方式查詢</a></p>
 
                 <h4>提供第三方監錄索引</h4>
                 <p>當客戶端的錄音系統非LOG8000時</p>

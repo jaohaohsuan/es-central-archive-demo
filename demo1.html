@@ -29,7 +29,7 @@
                     if(timeout) $timeout.cancel(timeout);
                     timeout = $timeout(function(){
                         $http({
-                            url: "http://localhost:9200/_all/_search",
+                            url: "http://192.168.11.2:9200/_all/_search",
                             method: "GET",
                             params: $scope.searchParams
 
@@ -52,43 +52,43 @@
     </script>
 </head>
 <body>
-    <div class="container">
-        <div class="page-header" ng-controller="Ctrl">
-            <h1>Demo 1 錄音查詢
-                <small>以手機Browser仿Google方式查詢</small>
-            </h1>
-            <ul>
-                <li>輸入 “0933123123”      	呼入或呼出號碼搜尋</li>
-                <li>輸入 “張志明 0933123123”  	專員名稱過濾</li>
-                <li>輸入 “李春嬌 保單核准 {時間範圍過濾}” 多重過濾</li>
-            </ul>
-            <form role="form">
-                <div class="form-group">
-                    <p>
-                        <input class="form-control input-lg" type="text"
-                               ng-model="searchParams._source"
-                               placeholder="fields">
-                    </p>
-
+<div class="container">
+    <div class="page-header" ng-controller="Ctrl">
+        <h1>Demo 1 錄音查詢
+            <small>以手機Browser仿Google方式查詢</small>
+        </h1>
+        <ul>
+            <li>輸入 “0933123123”      	呼入或呼出號碼搜尋</li>
+            <li>輸入 “張志明 0933123123”  	專員名稱過濾</li>
+            <li>輸入 “李春嬌 保單核准 {時間範圍過濾}” 多重過濾</li>
+        </ul>
+        <form role="form">
+            <div class="form-group">
+                <p>
                     <input class="form-control input-lg" type="text"
-                           ng-model="searchParams.q"
-                           placeholder="Search">
-                </div>
-            </form>
-            <table class="table">
-                <thead>
-                <tr>
-                   <td ng-repeat="(header, value) in results[0]">{{header}}</td>
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="row in results">
-                    <td ng-repeat="c in row">{{c}}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+                           ng-model="searchParams._source"
+                           placeholder="fields">
+                </p>
+
+                <input class="form-control input-lg" type="text"
+                       ng-model="searchParams.q"
+                       placeholder="Search">
+            </div>
+        </form>
+        <table class="table">
+            <thead>
+            <tr>
+                <td ng-repeat="(header, value) in results[0]">{{header}}</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in results">
+                <td ng-repeat="c in row">{{c}}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+</div>
 </div>
 </body>
 </html>
