@@ -21,10 +21,10 @@
         app.controller("Ctrl",function($http, $scope){
             $scope.results = [];
             $scope.criteria = {
-                StartTime : "2011/06/05 05:13:45",
+                StartTime : "[\"2011/01/10 20:00:00\" TO \"2011/01/10 20:00:04\"}",
                 Direct : "inbound",
-                ExtNo : "13268",
-                UserID : "3538"
+                ExtNo : "13294",
+                UserID : "3533"
             };
 
             $scope.querySubmit = function(){
@@ -37,10 +37,10 @@
                     }
                     else{
 
-                        if(header === "StartTime")
+                        /*if(header === "StartTime")
                         {
                             value = "\"" + value + "\"";
-                        }
+                        }*/
 
                         var pair = "+" + header + ":" + value + " ";
                         qStr+= pair;
@@ -75,7 +75,7 @@
 <body>
 <div class="container" ng-app="demo1App">
     <div class="page-header" ng-controller="Ctrl">
-        <h1>Demo 1 錄音查詢(Old)
+        <h1>Demo 1 錄音查詢(Old Style)
             <small></small>
         </h1>
         <ul>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="bootstrap.css"/>
+    <link rel="stylesheet" href="bootstrap-theme.css">
+    <link rel="stylesheet" href="ng-grid.min.css">
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="angular.min.js"></script>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="ng-grid-2.0.11.min.js"></script>
+    <title>Demo4</title>
+    <script>
+
+        var app = angular.module("demo4App", []);
+        app.controller("Ctrl",function($http, $scope){
+           $scope.pid = "23340144D2AF4C24100001622";
+           $scope.audioUrl = "";
+           $scope.result = "fine";
+
+            $scope.querySubmit = function(){
+                $http({
+                    url: 'http://172.16.1.201:9200/_search',
+                    method: 'GET',
+                    params: {
+                        q: "_id:" + $scope.pid,
+                        _source : "audioUrl", pretty: null
+                    }
+                }).success(function(data, status, headers, config) {
+
+                    document.getElementById("player").src =data.hits.hits[0]._source.audioUrl;
+
+                }).error(function(data, status, headers, config) {
+                    $scope.result = "error";
+                });
+            }
+
+        });
+
+    </script>
+</head>
+<body>
+<div class="container" ng-app="demo4App">
+    <div class="page-header" ng-controller="Ctrl">
+        <h1>Demo 4 當需要與客戶的業務系統軟體做整合時
+            <small>例:salesforce</small>
+        </h1>
+        <ul>
+            <li>以錄音開始時間、電話方向、分機號碼、專員Id等做查詢</li>
+        </ul>
+        <form role="form">
+            <div class="form-group">
+                <label for="inputPid">開始時間</label>
+                <input type="text" class="form-control" id="inputPid"
+                       placeholder="PID"
+                       ng-model="pid">
+            </div>
+            <button type="button" class="btn btn-primary" ng-click="querySubmit()">Query</button>
+        </form>
+
+        <h4>
+        <audio id="player"
+               controls
+               preload="auto"/>
+        </h4>
+
+    </div>
+</div>
+</body>
+</html>
