@@ -17,7 +17,7 @@
         app.controller("Ctrl", function($scope, $http){
 
             $http({
-                url: "http://172.16.1.201:9200/20*/_count",
+                url: "http://172.16.1.226:9200/20*/_count",
                 method: "GET"
             }).success(function(data, status, headers, config) {
                 $scope.archives = data;
@@ -57,7 +57,7 @@
 
             <div class="col-lg-6">
                 <h4>第三方錄音查播</h4>
-                <p>當需要與客戶的業務系統軟體做整合時</p>
+                <p><a href="demo4.html">當需要與客戶的業務系統軟體做整合時</a></p>
 
                 <h4>Free Auxiliary Data Scheme</h4>
                 <p>當客戶要求在錄音索引上記載額外的資訊時</p>

@@ -18,28 +18,20 @@
     <script>
 
         var app = angular.module("demo4App", []);
-        app.controller("Ctrl",function($http, $scope){
-           $scope.pid = "23340144D2AF4C24100001622";
-           $scope.audioUrl = "";
-           $scope.result = "fine";
+        app.controller("Ctrl", function ($scope) {
 
-            $scope.querySubmit = function(){
-                $http({
-                    url: 'http://172.16.1.201:9200/_search',
-                    method: 'GET',
-                    params: {
-                        q: "_id:" + $scope.pid,
-                        _source : "audioUrl", pretty: null
-                    }
-                }).success(function(data, status, headers, config) {
+            $scope.audioPid = "23340144D2AF4C24100001622";
+            $scope.videoPid = "0NfLqPEeS3S9XNRvzxD19A";
 
-                    document.getElementById("player").src =data.hits.hits[0]._source.audioUrl;
+            $scope.playAudio = function (pid) {
+                $scope.audioUrl = 'http://172.16.1.226:9000/play/audioUrl/' + pid;
+                document.getElementById("audioPlayer").src = $scope.audioUrl;
+            };
 
-                }).error(function(data, status, headers, config) {
-                    $scope.result = "error";
-                });
+            $scope.playVideo = function (pid) {
+                $scope.videoUrl = 'http://172.16.1.226:9000/play/videoUrl/' + pid;
+                document.getElementById("videoPlayer").src = $scope.videoUrl;
             }
-
         });
 
     </script>
@@ -47,27 +39,63 @@
 <body>
 <div class="container" ng-app="demo4App">
     <div class="page-header" ng-controller="Ctrl">
-        <h1>Demo 4 當需要與客戶的業務系統軟體做整合時
-            <small>例:salesforce</small>
+        <h1>Demo 4 與客戶的業務系統軟體做整合
+            <small></small>
         </h1>
-        <ul>
-            <li>以錄音開始時間、電話方向、分機號碼、專員Id等做查詢</li>
-        </ul>
+
+        <div class="panel panel-info">
+            <div class="panel-heading">xxxxxx系統~客戶接觸歷程</div>
+            <div class="panel-body">
+                <p>客戶姓名: 張志明</p>
+
+                <p>去電時間: 2014/xx/xx</p>
+
+                <p>去電理由: 客戶挽留</p>
+
+                <p>內容摘要: bla bla</p>
+            </div>
+        </div>
         <form role="form">
             <div class="form-group">
-                <label for="inputPid">開始時間</label>
+                <label for="inputPid">PID</label>
                 <input type="text" class="form-control" id="inputPid"
                        placeholder="PID"
-                       ng-model="pid">
+                       ng-model="audioPid">
             </div>
-            <button type="button" class="btn btn-primary" ng-click="querySubmit()">Query</button>
+            <button type="button" class="btn btn-primary" ng-click="playAudio(audioPid)">Audio</button>
+            <div ng-show="0 < audioUrl.length">
+                <h4>
+                    <audio id="audioPlayer"
+                           controls
+                           preload="auto"/>
+                </h4>
+                <br/>
+            <pre>&lt;audio src=&quot;http://172.16.1.226:9000/play/audioUrl/{{audioPid}}&quot;
+            controls preload=&quot;auto&quot;/&gt;</pre>
+            </div>
+            <br/>
+            <br/>
+
+            <div class="form-group">
+                <label for="inputVideoPid">PID</label>
+                <input type="text" class="form-control" id="inputVideoPid"
+                       placeholder="PID"
+                       ng-model="videoPid">
+            </div>
+
+            <button type="button" class="btn btn-primary" ng-click="playVideo(videoPid)">Video</button>
+            <div ng-show="0 < videoUrl.length">
+                <h4>
+                    <video id="videoPlayer"
+                           controls
+                           preload="auto"/>
+                </h4>
+                <br/>
+            <pre>&lt;audio src=&quot;http://172.16.1.226:9000/play/videoUrl/{{videoPid}}&quot;
+            controls preload=&quot;auto&quot;/&gt;</pre>
+            </div>
         </form>
 
-        <h4>
-        <audio id="player"
-               controls
-               preload="auto"/>
-        </h4>
 
     </div>
 </div>

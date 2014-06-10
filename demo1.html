@@ -29,7 +29,7 @@
                     if(timeout) $timeout.cancel(timeout);
                     timeout = $timeout(function(){
                         $http({
-                            url: "http://172.16.1.201:9200/_all/_search",
+                            url: "http://172.16.1.226:9200/_all/_search",
                             method: "GET",
                             params: $scope.searchParams
 

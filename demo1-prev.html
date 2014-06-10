@@ -38,9 +38,9 @@
                     else{
 
                         /*if(header === "StartTime")
-                        {
-                            value = "\"" + value + "\"";
-                        }*/
+                         {
+                         value = "\"" + value + "\"";
+                         }*/
 
                         var pair = "+" + header + ":" + value + " ";
                         qStr+= pair;
@@ -48,7 +48,7 @@
                 });
 
                 $http({
-                    url: 'http://172.16.1.201:9200/20*/_search',
+                    url: 'http://172.16.1.226:9200/20*/_search',
                     method: 'GET',
                     params: {
                         q: qStr.trim(),
