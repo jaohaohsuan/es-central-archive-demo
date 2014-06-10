@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html ng-app="VideoDispatcherDom" xmlns="http://www.w3.org/1999/html">
+<!DOCTYPE html>
+<!--[if IE 6]>
+<html id="ie6" dir="ltr" lang="zh-TW">
+<![endif]-->
+<!--[if IE 7]>
+<html id="ie7" dir="ltr" lang="zh-TW">
+<![endif]-->
+<!--[if IE 8]>
+<html id="ie8" dir="ltr" lang="zh-TW">
+<![endif]-->
+<!--[if !(IE 6) | !(IE 7) | !(IE 8)  ]><!-->
+<html dir="ltr" lang="zh-TW">
+<!--<![endif]-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="bootstrap.css"/>
+    <link rel="stylesheet" href="bootstrap-theme.css">
+    <link rel="stylesheet" href="ng-grid.min.css">
+    <link href="jumbotron-narrow.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="angular.min.js"></script>
+    <script src="jquery-1.11.1.min.js"></script>
+    <script src="ng-grid-2.0.11.min.js"></script>
+    <link rel="stylesheet" href="voicelogstyle.css">
+
+    <script type="text/javascript">
+        var VideoDispatcherDOMApp = angular.module('VideoDispatcherDom', [ ]);
+
+        var VideSearchTerm = {q: ""};
+
+        var VideoPostTerm = {
+            videoUrl: "", CallNo: "09825535xx", ExtNo: "5899", UserField: ""
+        };
+
+        var VideoPutTerm = {
+
+            doc: {
+                videoUrl: "", CallNo: "09825535xx", ExtNo: "5899", UserField: ""
+            }
+        };
+        var esIp = "http://192.168.11.2:9200";
+
+
+        VideoDispatcherDOMApp.controller('VideoDispatcherController', function ($scope, $http, $timeout) {
+
+            $scope.Video = VideoPostTerm;
+            $scope.PID = "";
+            $scope.lastIndex = null;
+            $scope.clickUpload = function () {
+
+                $http.post(esIp + "/2014/37", VideoPostTerm).success(function (data) {
+                    lastIndex = data;
+                    $scope.showMessageResult = data;
+                    $scope.PID = data._id;
+                }).error(function (data) {
+
+                });
+            };
+
+            $scope.clickUpdate = function () {
+                VideoPutTerm.doc.videoUrl = $scope.Video.videoUrl;
+                VideoPutTerm.doc.CallNo = $scope.Video.CallNo;
+                VideoPutTerm.doc.ExtNo = $scope.Video.ExtNo;
+                VideoPutTerm.doc.UserField = $scope.Video.UserField;
+
+
+                $http.post(esIp + "/2014/37/" + lastIndex._id + "/_update", VideoPutTerm).success(function (data) {
+                    $scope.showMessageResult = data;
+                }).error(function (data) {
+
+                });
+            };
+
+            $scope.searchWithPlayVideo = function (videoUrl) {
+                VideSearchTerm.q = videoUrl;
+                document.getElementById("mp4video").src = videoUrl;
+
+            }
+            $scope.cheacklastIndex = function () {
+                if (typeof lastIndex != 'undefined') {
+                    return false;
+                }
+                return true;
+            };
+        });
+
+
+        function newGuid() {
+            var guid = "";
+            for (var i = 1; i <= 32; i++) {
+                var n = Math.floor(Math.random() * 16.0).toString(16);
+                guid += n;
+                if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+                    guid += "-";
+            }
+            return guid;
+        }
+
+    </script>
+</head>
+<body ng-controller="VideoDispatcherController as VideoDispatcher">
+<div class="container">
+    <div class="header">
+
+        <h1>DEMO 3: 提供第三方監錄索引
+            <small>例:福創、FreeSwitch?</small>
+        </h1>
+        <ul>
+            <li>第三方監錄完成後將媒體檔案存放於某URL</li>
+            <li>第三方可採用資源檢索服務寫入任意結構的索引</li>
+        </ul>
+
+
+    </div>
+    <div class="container">
+        <form>
+
+
+            <fieldset novalidate>
+                <p>
+                    <label class="bodyRowLableStyle">Sens資訊:</label>
+
+                <p>{{showMessageResult}}</p>
+                </p>
+
+                <p>
+                    <label class="bodyRowLableStyle">PID:</label>
+                    <span>{{PID}}</span>
+                </p>
+
+                <P novalidate>
+                    <label class="bodyRowLableStyle" required>分機號碼:</label><!--來話號碼 分機號碼 附屬資訊-->
+                    <input type="text" ng-model="Video.ExtNo" placeholder="Type ExtNo…" class="inputUrlText"/>
+                </P>
+
+                <P novalidate>
+                    <label class="bodyRowLableStyle">來話號碼:</label><!--來話號碼 分機號碼 附屬資訊-->
+                    <input type="text" ng-model="Video.CallNo" placeholder="Type CallNo…" class="inputUrlText"/>
+                </P>
+
+                <P novalidate>
+                    <label class="bodyRowLableStyle">多媒體位置(URL):</label><!--來話號碼 分機號碼 附屬資訊-->
+                    <input type="text" ng-model="Video.videoUrl" placeholder="Type URL…" class="inputUrlText" required/>
+
+                </P>
+
+                <P novalidate>
+                    <label class="bodyRowLableStyle">附屬資訊:</label><!--來話號碼 分機號碼 附屬資訊-->
+                    <input type="text" ng-model="Video.UserField" placeholder="Type UserField…" class="inputUrlText"/>
+                </P>
+
+                <p novalidate>
+                    <button ng-click="clickUpload()" class="btn btn-primary" required>新增索引</button>
+                    <button ng-click="clickUpdate()" ng-disabled="cheacklastIndex()" class="btn btn-primary">更新索引
+                    </button>
+                </p>
+            </fieldset>
+        </form>
+
+
+    </div>
+    <p></p>
+
+    <div class="container">
+        <p></p>
+
+        <form value="update">
+            <p>
+                <button ng-click="searchWithPlayVideo(Video.videoUrl)" class="btn btn-primary">檢視播放</button>
+            </p>
+            <p>
+                <video id="mp4video" class="videoStyle" controls loop poster="poster.png" autoplay></video>
+            </p>
+
+            {{Video.videoUrl}}
+        </form>
+    </div>
+</div>
+
+
+</body>
+</html>

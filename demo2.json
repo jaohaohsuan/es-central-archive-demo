@@ -1,0 +1,10 @@
+GET 2012/37/{id}
+
+POST 2012/37/{id}/_update
+{
+    doc:{
+    CallerSTT:"你好,我要買保險",
+    CalleeSTT:"保單已核准，謝謝您",
+    INo:"123456"
+    }
+}

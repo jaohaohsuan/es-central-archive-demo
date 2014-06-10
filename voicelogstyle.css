@@ -1,0 +1,20 @@
+
+#mp4video {
+    top:100em;
+    bottom:0;
+    width: 640;
+    height: 360;
+
+}
+
+.inputUrlText{
+    width:20em;
+}
+
+.bodyRowLableStyle{
+    width:9em;
+}
+
+#MessageTitle{
+    margin: 1em 1em 1em 1em;
+}
