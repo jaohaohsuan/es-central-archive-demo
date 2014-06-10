@@ -119,7 +119,7 @@
 
     </div>
     <div class="container">
-        <form>
+        <form name="form">
 
 
             <fieldset novalidate>
@@ -135,17 +135,17 @@
 
                 <P novalidate>
                     <label class="bodyRowLableStyle" required>分機號碼:</label><!--來話號碼 分機號碼 附屬資訊-->
-                    <input type="text" ng-model="Video.ExtNo" placeholder="Type ExtNo…" class="inputUrlText"/>
+                    <input name="extNoTextbox" type="text" ng-model="Video.ExtNo" placeholder="Type ExtNo…" class="inputUrlText" required/>
                 </P>
 
                 <P novalidate>
                     <label class="bodyRowLableStyle">來話號碼:</label><!--來話號碼 分機號碼 附屬資訊-->
-                    <input type="text" ng-model="Video.CallNo" placeholder="Type CallNo…" class="inputUrlText"/>
+                    <input name="CallNoTextbox" type="text" ng-model="Video.CallNo" placeholder="Type CallNo…" class="inputUrlText" required/>
                 </P>
 
                 <P novalidate>
                     <label class="bodyRowLableStyle">多媒體位置(URL):</label><!--來話號碼 分機號碼 附屬資訊-->
-                    <input type="text" ng-model="Video.videoUrl" placeholder="Type URL…" class="inputUrlText" required/>
+                    <input name="videoUrlTextbox" type="text"  ng-model="Video.videoUrl" placeholder="Type URL…" class="inputUrlText" required/>
 
                 </P>
 
@@ -155,8 +155,8 @@
                 </P>
 
                 <p novalidate>
-                    <button ng-click="clickUpload()" class="btn btn-primary" required>新增索引</button>
-                    <button ng-click="clickUpdate()" ng-disabled="cheacklastIndex()" class="btn btn-primary">更新索引
+                    <button ng-click="clickUpload()" ng-disabled="form.extNoTextbox.$invalid||form.CallNoTextbox.$invalid||form.videoUrlTextbox.$invalid" class="btn btn-primary" required>新增索引</button>
+                    <button ng-click="clickUpdate()" ng-disabled="form.extNoTextbox.$invalid||form.CallNoTextbox.$invalid||form.videoUrlTextbox.$invalid||cheacklastIndex()" class="btn btn-primary">更新索引
                     </button>
                 </p>
             </fieldset>
@@ -171,12 +171,11 @@
 
         <form value="update">
             <p>
-                <button ng-click="searchWithPlayVideo(Video.videoUrl)" class="btn btn-primary">檢視播放</button>
+                <button ng-click="searchWithPlayVideo(Video.videoUrl)" ng-disabled="form.videoUrlTextbox.$invalid" class="btn btn-primary">檢視播放</button>
             </p>
             <p>
-                <video id="mp4video" class="videoStyle" controls loop poster="poster.png" autoplay></video>
+                <video id="mp4video" class="videoStyle" controls  poster="poster.png" autoplay></video>
             </p>
-
             {{Video.videoUrl}}
         </form>
     </div>
