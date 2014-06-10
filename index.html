@@ -10,14 +10,15 @@
     <link rel="stylesheet" href="bootstrap-theme.css"/>
     <link href="jumbotron-narrow.css" rel="stylesheet">
     <script src="angular.min.js"></script>
+    <script src="conf.js"></script>
 
     <title>Central Archive</title>
     <script>
         var app = angular.module("app", []);
         app.controller("Ctrl", function ($scope, $http) {
-
+            $scope.demo2Url = "http://" + vpnAddress + ":9200/_plugin/marvel/sense/index.html?load_from=http://"+ vpnAddress +":5000/demo2.json";
             $http({
-                url: "http://172.16.1.239:9200/20*/_count",
+                url: "http://"+ vpnAddress +":9200/20*/_count",
                 method: "GET"
             }).success(function (data, status, headers, config) {
                 $scope.archives = data;
@@ -29,7 +30,7 @@
     </script>
 </head>
 <body>
-<div class="container">
+<div class="container" ng-controller="Ctrl">
     <div class="header">
         <ul class="nav nav-pills pull-right">
             <li class="active"><a href="#">Home</a></li>
@@ -39,7 +40,7 @@
         <h3 class="text-muted">WW Project</h3>
     </div>
 
-    <div class="jumbotron" ng-controller="Ctrl">
+    <div class="jumbotron">
         <h1>Central RecIndex</h1>
 
         <p class="lead">如果有一個免費的服務平台，提供即時、穩定、高效率的Object存取服務，我們還需要DB嗎?</p>
@@ -51,7 +52,7 @@
 
     <div class="row marketing">
         <div class="col-lg-6">
-            <h4>Demo1 錄音查詢</h4>
+            <h4>Demo 1 錄音查詢</h4>
 
             <p>
             <ul>
@@ -60,14 +61,14 @@
             </ul>
             </p>
 
-            <h4>Demo2 Free Auxiliary Data Scheme</h4>
+            <h4>Demo 2 Free Auxiliary Data Scheme</h4>
             <p>
-                <a href="http://172.16.1.239:9200/_plugin/marvel/sense/index.html?load_from=http://172.16.1.239:5000/demo2.json">當客戶要求在錄音索引上記載額外的資訊時</a>
+                <a href={{demo2Url}}>當客戶要求在錄音索引上記載額外的資訊時</a>
             </p>
         </div>
 
         <div class="col-lg-6">
-            <h4>Demo3 提供第三方監錄索引</h4>
+            <h4>Demo 3 提供第三方監錄索引</h4>
             <p><a href="demo3.html">當客戶端的錄音系統非LOG8000時</a></p>
 
             <h4>Demo 4 第三方錄音查播</h4>

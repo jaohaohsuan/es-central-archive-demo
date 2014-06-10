@@ -28,6 +28,7 @@
     <script src="jquery-1.11.1.min.js"></script>
     <script src="ng-grid-2.0.11.min.js"></script>
     <link rel="stylesheet" href="voicelogstyle.css">
+    <script src="conf.js"></script>
 
     <script type="text/javascript">
         var VideoDispatcherDOMApp = angular.module('VideoDispatcherDom', [ ]);
@@ -44,7 +45,7 @@
                 videoUrl: "", CallNo: "09825535xx", ExtNo: "5899", UserField: ""
             }
         };
-        var esIp = "http://172.16.1.239:9200";
+        var esIp = "http://"+ vpnAddress +":9200";
 
 
         VideoDispatcherDOMApp.controller('VideoDispatcherController', function ($scope, $http, $timeout) {
@@ -108,7 +109,7 @@
 <div class="container">
     <div class="header">
 
-        <h1>DEMO 3: 提供第三方監錄索引
+        <h1>Demo 3: 提供第三方監錄索引
             <small>例:福創、FreeSwitch?</small>
         </h1>
         <ul>
