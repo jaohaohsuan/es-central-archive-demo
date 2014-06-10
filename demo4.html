@@ -24,12 +24,12 @@
             $scope.videoPid = "0NfLqPEeS3S9XNRvzxD19A";
 
             $scope.playAudio = function (pid) {
-                $scope.audioUrl = 'http://172.16.1.226:9000/play/audioUrl/' + pid;
+                $scope.audioUrl = 'http://172.16.1.239:9000/play/audioUrl/' + pid;
                 document.getElementById("audioPlayer").src = $scope.audioUrl;
             };
 
             $scope.playVideo = function (pid) {
-                $scope.videoUrl = 'http://172.16.1.226:9000/play/videoUrl/' + pid;
+                $scope.videoUrl = 'http://172.16.1.239:9000/play/videoUrl/' + pid;
                 document.getElementById("videoPlayer").src = $scope.videoUrl;
             }
         });

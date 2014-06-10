@@ -17,7 +17,7 @@
         app.controller("Ctrl", function ($scope, $http) {
 
             $http({
-                url: "http://172.16.1.226:9200/20*/_count",
+                url: "http://172.16.1.239:9200/20*/_count",
                 method: "GET"
             }).success(function (data, status, headers, config) {
                 $scope.archives = data;
@@ -62,7 +62,7 @@
 
             <h4>Demo2 Free Auxiliary Data Scheme</h4>
             <p>
-                <a href="http://172.16.1.226:9200/_plugin/marvel/sense/index.html?load_from=http://172.16.1.226:5000/demo2.json">當客戶要求在錄音索引上記載額外的資訊時</a>
+                <a href="http://172.16.1.239:9200/_plugin/marvel/sense/index.html?load_from=http://172.16.1.239:5000/demo2.json">當客戶要求在錄音索引上記載額外的資訊時</a>
             </p>
         </div>
 
