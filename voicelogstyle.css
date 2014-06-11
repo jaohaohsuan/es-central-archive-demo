@@ -10,11 +10,17 @@
 .inputUrlText{
     width:20em;
 }
-
+.inputUrlMaxText{
+    width:25em;
+}
 .bodyRowLableStyle{
-    width:9em;
+    width:5em;
 }
 
 #MessageTitle{
     margin: 1em 1em 1em 1em;
+}
+
+.ChineseFontStytleTitle{
+    font-family: STSong;
 }
