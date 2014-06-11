@@ -11,6 +11,7 @@
     <link href="jumbotron-narrow.css" rel="stylesheet">
     <script src="angular.min.js"></script>
     <script src="conf.js"></script>
+    <link rel="stylesheet" href="voicelogstyle.css">
 
     <title>Central Archive</title>
     <script>
@@ -37,15 +38,15 @@
             <li><a href="#">About</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
-        <h3 class="text-muted">WW Project</h3>
+        <h3 class="text-muted">LOG8000 Replay</h3>
     </div>
 
     <div class="jumbotron">
-        <h1>Central RecIndex</h1>
+        <h1><span class="ChineseFontStytleTitle">資源檢索服務平台</span></h1>
 
-        <p class="lead">如果有一個免費的服務平台，提供即時、穩定、高效率的Object存取服務，我們還需要DB嗎?</p>
+        <p class="lead"><span class="ChineseFontStytleTitle">LOG8000錄音索引Demo</span></p>
 
-        <p>{{archives.count | number:0}} RecIndices stored</p>
+        <p>{{archives.count | number:0}} Indices stored</p>
 
         <p><a class="btn btn-lg btn-success" role="button" href="demo1.html">Try it</a></p>
     </div>

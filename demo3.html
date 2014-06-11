@@ -36,13 +36,13 @@
         var VideSearchTerm = {q: ""};
 
         var VideoPostTerm = {
-            videoUrl: "", CallNo: "09825535xx", ExtNo: "5899", UserField: ""
+            videoUrl: "", CallNo: "09825535xx", ExtNo: "5899", UserField2: ""
         };
 
         var VideoPutTerm = {
 
             doc: {
-                videoUrl: "", CallNo: "09825535xx", ExtNo: "5899", UserField: ""
+                videoUrl: "", CallNo: "09825535xx", ExtNo: "5899", UserField2: ""
             }
         };
         var esIp = "http://"+ vpnAddress +":9200";
@@ -51,7 +51,7 @@
         VideoDispatcherDOMApp.controller('VideoDispatcherController', function ($scope, $http, $timeout) {
 
             $scope.Video = VideoPostTerm;
-            $scope.PID = "";
+            $scope.PID = "未建立索引";
             $scope.lastIndex = null;
             $scope.clickUpload = function () {
 
@@ -68,7 +68,7 @@
                 VideoPutTerm.doc.videoUrl = $scope.Video.videoUrl;
                 VideoPutTerm.doc.CallNo = $scope.Video.CallNo;
                 VideoPutTerm.doc.ExtNo = $scope.Video.ExtNo;
-                VideoPutTerm.doc.UserField = $scope.Video.UserField;
+                VideoPutTerm.doc.UserField2 = $scope.Video.UserField2;
 
 
                 $http.post(esIp + "/2014/37/" + lastIndex._id + "/_update", VideoPutTerm).success(function (data) {
@@ -110,24 +110,26 @@
     <div class="header">
 
         <h1>Demo 3: 提供第三方監錄索引
-            <small>例:福創、FreeSwitch?</small>
+            <!--<small>例:福創、FreeSwitch?</small>-->
         </h1>
         <ul>
             <li>第三方監錄完成後將媒體檔案存放於某URL</li>
             <li>第三方可採用資源檢索服務寫入任意結構的索引</li>
         </ul>
-
-
     </div>
     <div class="container">
         <form name="form">
 
-
             <fieldset novalidate>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Sens資訊:</div>
-                    <div class="panel-body"><span>{{showMessageResult}}</span></div>
-                </div>
+                <P novalidate>
+                    <p>
+                <label>第三方的影音通話檔位置(URL):</label><!--來話號碼 分機號碼 附屬資訊-->
+
+            </p>
+
+                    <input name="videoUrlTextbox" type="text"  ng-model="Video.videoUrl" placeholder="Type URL…" class="inputUrlMaxText" required/>
+
+                </P>
 
                 <p>
                     <label class="bodyRowLableStyle">PID:</label>
@@ -144,15 +146,11 @@
                     <input name="CallNoTextbox" type="text" ng-model="Video.CallNo" placeholder="Type CallNo…" class="inputUrlText" required/>
                 </P>
 
-                <P novalidate>
-                    <label class="bodyRowLableStyle">多媒體位置(URL):</label><!--來話號碼 分機號碼 附屬資訊-->
-                    <input name="videoUrlTextbox" type="text"  ng-model="Video.videoUrl" placeholder="Type URL…" class="inputUrlText" required/>
 
-                </P>
 
                 <P novalidate>
                     <label class="bodyRowLableStyle">附屬資訊:</label><!--來話號碼 分機號碼 附屬資訊-->
-                    <input type="text" ng-model="Video.UserField" placeholder="Type UserField…" class="inputUrlText"/>
+                    <input type="text" ng-model="Video.UserField2" placeholder="Type UserField…" class="inputUrlText"/>
                 </P>
 
                 <p novalidate>
@@ -160,6 +158,11 @@
                     <button ng-click="clickUpdate()" ng-disabled="form.extNoTextbox.$invalid||form.CallNoTextbox.$invalid||form.videoUrlTextbox.$invalid||cheacklastIndex()" class="btn btn-primary">更新索引
                     </button>
                 </p>
+                <span>{{showMessageResult}}</span>
+<!--                <div class="panel panel-primary">
+                    <div class="panel-heading">操作返回資訊</div>
+                    <div class="panel-body"><span>{{showMessageResult}}</span></div>
+                </div>-->
             </fieldset>
         </form>
 
@@ -177,7 +180,7 @@
             <p>
                 <video id="mp4video" class="videoStyle" controls  poster="poster.png" autoplay></video>
             </p>
-            {{Video.videoUrl}}
+
         </form>
     </div>
 </div>
